@@ -1,5 +1,6 @@
 package com.knubisoft.acolyte.springsecurityapp.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,11 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,7 +35,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserDetailsService userDetailsService() {
         UserDetails userDetails = User.builder()
                 .username("bohdan")
-                .password("marvel10")
+                .password(passwordEncoder.encode("marvel10"))
                 .roles("STUDENT")
                 .build(); // ROLE_STUDENT
 
