@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static com.knubisoft.acolyte.springsecurityapp.security.ApplicationUserRole.ADMIN;
+import static com.knubisoft.acolyte.springsecurityapp.security.ApplicationUserRole.STUDENT;
+
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
@@ -36,13 +39,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails student = User.builder()
                 .username("student-user")
                 .password(passwordEncoder.encode("student"))
-                .roles("STUDENT")
+                .roles(STUDENT.name())
                 .build(); // ROLE_STUDENT
 
         UserDetails admin = User.builder()
                 .username("admin-user")
                 .password(passwordEncoder.encode("admin"))
-                .roles("ADMIN")
+                .roles(ADMIN.name())
                 .build();
 
         return new InMemoryUserDetailsManager(student, admin);
